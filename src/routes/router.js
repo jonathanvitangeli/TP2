@@ -1,15 +1,26 @@
-import express from "express";
-import barberRoutes from "./barberRoutes.js";
-import clientRoutes from "./ClientRoutes.js";
+import {Router} from "express";
+import rolesRouter from "./rolesRouter.js";
+import userRouter from "./userRouter.js";
 import serviceRoutes from "./serviceRoutes.js";
 import turnRoutes from "./turnRoutes.js";
 
 
 const router = express.Router();
 
-router.use("/barbers", barberRoutes);
-router.use("/clients", clientRoutes);
+router.use("/roles", rolesRouter);
+router.use("/users", userRouter);
 router.use("/services", serviceRoutes);
 router.use("/turns", turnRoutes);
 
 export default router;
+
+
+
+
+
+
+
+
+
+
+

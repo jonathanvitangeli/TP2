@@ -12,8 +12,10 @@
   "author": "Jonathan Facundo Vitangeli",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",

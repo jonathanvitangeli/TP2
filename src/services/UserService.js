@@ -1,23 +1,23 @@
 import { User, Role } from "../models/index.js";
-import { gentoken } from "../utils/token.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { gentoken } from "../utils/token.js"; // Asegurate de que este archivo exista
 
 class UserService {
-  // Traer todos los usuarios con su rol
+  // Obtener todos los usuarios
   getAllUserService = async () => {
     const users = await User.findAll({
       attributes: ["id", "name", "mail", "RoleId"],
       include: {
         model: Role,
-        attributes: ["name"], // o "roleName" si así está en tu modelo
+        attributes: ["name"],
       },
     });
     return users;
   };
 
-  // Traer un usuario por ID
-  getlUserServiceById = async (id) => {
+  // Obtener usuario por ID
+  getUserServiceById = async (id) => {
     const user = await User.findByPk(id, {
       attributes: ["id", "name", "mail", "RoleId"],
       include: {
@@ -29,15 +29,14 @@ class UserService {
     return user;
   };
 
-  // Crear nuevo usuario
+  // Crear nuevo usuario con hash
   createUserService = async (data) => {
-    // Hash del password antes de guardar
     const hashedPassword = await bcrypt.hash(data.pass, 10);
     const user = await User.create({ ...data, pass: hashedPassword });
     return user;
   };
 
-  // Login
+  // Login de usuario
   login = async ({ mail, pass }) => {
     const user = await User.findOne({ where: { mail } });
     if (!user) throw new Error("Usuario no encontrado");
@@ -55,7 +54,7 @@ class UserService {
     return token;
   };
 
-  // Info del usuario actual (por token)
+  // Obtener datos del usuario desde token
   me = async (token) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findByPk(decoded.id, {
@@ -66,6 +65,29 @@ class UserService {
       },
     });
     return user;
+  };
+
+  // Actualizar usuario por ID
+  updateUser = async (id, data) => {
+    const user = await User.findByPk(id);
+    if (!user) return null;
+
+    // Si se actualiza la contraseña, se hashea
+    if (data.pass) {
+      data.pass = await bcrypt.hash(data.pass, 10);
+    }
+
+    await user.update(data);
+    return user;
+  };
+
+  // Eliminar usuario por ID
+  deleteUser = async (id) => {
+    const user = await User.findByPk(id);
+    if (!user) return null;
+
+    await user.destroy();
+    return true;
   };
 }
 

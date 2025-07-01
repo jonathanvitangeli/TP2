@@ -1,6 +1,4 @@
 import Turn from "../models/Turn.js";
-import Client from "../models/Client.js";
-import Barber from "../models/Barber.js";
 import Service from "../models/Service.js";
 
 class TurnService {
@@ -33,6 +31,10 @@ class TurnService {
     if (!turn) return null;
     await turn.destroy();
     return true;
+  }
+  async createTurnService(data) {
+    const turn = await Turn.create(data);
+    return turn;
   }
 }
 

@@ -15,7 +15,7 @@ class TurnController {
   getTurnByIdController = async (req, res) => {
     try {
       const { id } = req.params;
-      const turn = await this.turnService.getTurnByIdService(id);
+      const turn = await this.turnService.getTurnById(id); // 👈 corregido
       res.status(200).send({ success: true, message: turn });
     } catch (error) {
       res.status(404).send({ success: false, message: error.message });
@@ -36,7 +36,7 @@ class TurnController {
     try {
       const { id } = req.params;
       const { date, idService, idBarber, idClient } = req.body;
-      const updatedTurn = await this.turnService.updateTurnService(id, { date, idService, idBarber, idClient });
+      const updatedTurn = await this.turnService.updateTurn(id, { date, idService, idBarber, idClient }); // 👈 corregido
       res.status(200).send({ success: true, message: updatedTurn });
     } catch (error) {
       res.status(400).send({ success: false, message: error.message });
@@ -46,7 +46,7 @@ class TurnController {
   deleteTurnController = async (req, res) => {
     try {
       const { id } = req.params;
-      await this.turnService.deleteTurnService(id);
+      await this.turnService.deleteTurn(id); // 👈 corregido
       res.status(200).send({ success: true, message: "Turn deleted successfully" });
     } catch (error) {
       res.status(400).send({ success: false, message: error.message });

@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import connection from "../config/connection.js";
+import bcrypt from "bcryptjs";
+
 
 class User extends Model {
   static compare = async (plainPassword, hash) => {
@@ -35,5 +37,10 @@ User.beforeCreate(async (user) => {
   const hash = await bcrypt.hash(user.pass, salt);
   user.pass = hash;
 });
+
+User.associate = (models) => {
+  User.belongsTo(models.Role, { foreignKey: "RoleId" });
+};
+
 
 export default User;

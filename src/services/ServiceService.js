@@ -1,8 +1,9 @@
 import Service from "../models/Service.js";
 
 class ServiceService {
-  async getAllServices() {
-    return await Service.findAll();
+ async getAllServicesService() {
+    const services = await Service.findAll();
+    return services;
   }
 
   async getServiceById(id) {
